@@ -6,7 +6,6 @@
   <div v-if="categories.length" class="mx-32">
     <input type="text" v-model="searchTerm" class="bg-blue-100 w-full h-10 p-2">
     <span>Search term: {{ searchTerm == '' ? '-' : searchTerm }}</span>
-    <!-- <div v-for="category in categories" :key="category.id"> -->
     <div v-for="category in filteredCategories" :key="category.id">
       <div class="my-10 w-full flex flex-col justify-center">
         <CategoryCard class="mt-4" :category="category"/>
