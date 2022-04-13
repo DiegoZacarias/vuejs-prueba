@@ -8,7 +8,7 @@
 				<span v-if="error" class="text-red-500">{{error}}</span>
 			</div>
 
-			<button @click="updateCategoria(1)" class="bg-green-500 text-white h-10 mt-4 text-2xl hover:bg-green-600 p-2">
+			<button @click="updateCategoria()" class="bg-green-500 text-white h-10 mt-4 text-2xl hover:bg-green-600 p-2">
 				Actualizar categoria
 			</button>
 		</div>
@@ -16,31 +16,16 @@
 </template>
 <script>
 import { ref } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
+import updateCategory from './../../composables/updateCategory'
 
 export default {
 	props: ['id'],
 	setup(props) {
 		const id = props.id;
 		const name = ref('');
-		const error = ref('');
-		const router = useRouter();
-
-		const updateCategoria = (id) => {
-			axios.patch(`${process.env.VUE_APP_API_URL}/api/v1/categories/${id}`, {
-				name: name.value
-			}).then(response => {
-				error.value = "";
-				console.log(response.data);
-				alert('Categoria actualizada correctamente.');
-			}).catch(e => {
-				error.value = e.response.data.message;
-				console.log(error.value);
-			}).finally(() => {
-				console.log('finally');
-				router.go(-1);
-			});
+		const { error, update } = updateCategory();
+		const updateCategoria = () => {
+			update(id, name.value);
 		}
 
 		return {
