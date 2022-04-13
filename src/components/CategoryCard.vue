@@ -19,7 +19,7 @@
 				<router-link :to="{ name: 'EditCategory', params: { id: category.id } }">
 					Editar
 				</router-link>
-				<button>
+				<button @click="deleteCategory()">
 					Eliminar
 				</button>
 			</div>
@@ -27,13 +27,34 @@
 	</div>
 </template>
 <script>
+// import axios 
+import axios from 'axios'
+import { useRouter } from 'vue-router';
 export default {
 	props: ['category'],
 	setup(props) {
 		const category = props.category;
+		const router = useRouter()
+
+		const deleteCategory = () => {
+			if(confirm(`Desea eliminar la categoria ${category.name}?`)) {
+
+				axios.delete(`${process.env.VUE_APP_API_URL}/api/v1/categories/${category.id}`)
+					.then(res => {
+						alert('Categoria eliminada');
+						router.go();
+					})
+					.catch(err => {
+						console.log(err);
+						alert('No se pudo eliminar la categoria')
+					})
+
+			}
+		}
 
 		return {
-			category
+			category,
+			deleteCategory
 		}
 	}
 }
