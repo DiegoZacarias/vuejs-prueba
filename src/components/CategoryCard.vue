@@ -29,12 +29,10 @@
 <script>
 // import axios 
 import axios from 'axios'
-import { useRouter } from 'vue-router';
 export default {
-	props: ['category'],
+	props: ['category', 'callback'],
 	setup(props) {
 		const category = props.category;
-		const router = useRouter()
 
 		const deleteCategory = () => {
 			if(confirm(`Desea eliminar la categoria ${category.name}?`)) {
@@ -42,7 +40,8 @@ export default {
 				axios.delete(`${process.env.VUE_APP_API_URL}/api/v1/categories/${category.id}`)
 					.then(res => {
 						alert('Categoria eliminada');
-						router.go();
+						// router.go();
+						props.callback();
 					})
 					.catch(err => {
 						console.log(err);

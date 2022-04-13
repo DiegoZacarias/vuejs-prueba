@@ -8,7 +8,7 @@
     <span>Search term: {{ searchTerm == '' ? '-' : searchTerm }}</span>
     <div v-for="category in filteredCategories" :key="category.id">
       <div class="my-10 w-full flex flex-col justify-center">
-        <CategoryCard class="mt-4" :category="category"/>
+        <CategoryCard class="mt-4" :category="category" :callback="updateCategoriesList"/>
       </div>
     </div>
   </div>
@@ -39,8 +39,12 @@ export default {
       })
     });
 
+    const updateCategoriesList = () => {
+      load();
+    }
 
-    return { categories, error, searchTerm, filteredCategories }
+
+    return { categories, error, searchTerm, filteredCategories, updateCategoriesList }
   }
 }
 </script>
